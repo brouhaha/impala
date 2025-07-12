@@ -1,0 +1,45 @@
+# Copyright 2025 Eric Smith
+# SPDX-License-Identifier: GPL-3.0-only
+
+Import('env')
+
+OPTIMIZE = False
+DEBUG = True
+
+cxxflags = ['--std=c++23', '-Wall', '-Wextra', '-Werror', '-pedantic', '-g']
+if OPTIMIZE:
+    cxxflags.append(['-O2'])
+if DEBUG:
+    cxxflags.append(['-g'])
+
+env.Append(CXXFLAGS = cxxflags)
+
+libs = ['boost_program_options']
+
+env.Append(LIBS = libs)
+
+sources = ['assembler.cc',
+           'ast_node.cc',
+           'ast_stack.cc',
+           'instruction_set.cc',
+           'main.cc',
+           'parser.cc',
+           'pseudo_op.cc',
+           'symbol_table.cc',
+           'utility.cc',
+           'value.cc']
+
+objects = [env.Object(source)[0] for source in sources]
+
+source_dirs = []
+for source_dir in source_dirs:
+    objects += SConscript('#src/' + source_dir + '/SConscript',
+                          variant_dir = env['build_dir'] + '/' + source_dir,
+                          duplicate = False,
+                          exports = ['env'])
+
+executable = env.Program('impala', objects)[0]
+
+# Local Variables:
+# mode: python
+# End:

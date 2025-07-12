@@ -1,0 +1,11 @@
+build
+*.conf
+*.o
+.*
+*~
+\#*
+__pycache__
+*.p65
+*.bin
+*.lst
+
