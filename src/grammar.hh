@@ -242,7 +242,9 @@ namespace grammar
   struct pseudo_op_def: pegtl::seq<mnemonic_pseudo_def,
 				   whitespace,
 				   expression_symbol,
+				   pegtl::opt<whitespace>,
 				   pegtl::one<'='>,
+				   pegtl::opt<whitespace>,
 				   expression> {};
 
   struct pseudo_op_link: pegtl::seq<mnemonic_pseudo_link,
