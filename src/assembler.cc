@@ -280,6 +280,7 @@ void Assembler::assemble_instruction()
 			       std::format("relative branch displacement {} out of range",
 					   displacement));
 	}
+	opcode = info.opcode;
 	operand_value = displacement & 0xff;
       }
       else if ((infos.size() == 1) ||
@@ -337,6 +338,10 @@ void Assembler::assemble_pseudo_op()
 
 void Assembler::write_object_bytes()
 {
+  if (! m_object_code_bytes.size())
+  {
+    return;
+  }
   if (m_object_code_address != m_prev_object_code_address)
   {
     m_object_file << std::format("*{:04X}", m_object_code_address);
