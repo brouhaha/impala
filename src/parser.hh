@@ -36,6 +36,8 @@ public:
   Parser& operator=(const Parser& ) = delete;  // no copy assignment
   Parser& operator=(      Parser&&) = delete;  // no move assignment
 
+  void check_grammar();
+
   StatementSP parse(unsigned pass_number,
 		    unsigned source_line_number,
 		    std::uint16_t location_counter,

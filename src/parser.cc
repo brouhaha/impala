@@ -37,17 +37,22 @@ Parser::Parser(std::shared_ptr<InstructionSet> instruction_set_sp,
 {
 }
 
+void Parser::check_grammar()
+{
+  auto grammar_analysis_error_count = pegtl::analyze<grammar::statement>();
+  if (grammar_analysis_error_count)
+  {
+    throw std::logic_error(std::format("internal error: grammar analysis failed, count {}", grammar_analysis_error_count));
+  }
+}
+
 StatementSP Parser::parse(unsigned pass_number,
 			  unsigned source_line_number,
 			  std::uint16_t location_counter,
 			  const std::string& s)
 {
 #if 0
-  auto grammar_analysis_error_count = pegtl::analyze<grammar::statement>();
-  if (grammar_analysis_error_count)
-  {
-    throw std::logic_error(std::format("internal error: grammar analysis failed, count {}", grammar_analysis_error_count));
-  }
+  check_grammar();
 #endif
 
   m_pass_number = pass_number;
